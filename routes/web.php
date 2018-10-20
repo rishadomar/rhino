@@ -23,7 +23,19 @@ Route::get('/contact', function () {
 	return view('contact');
 });
 
-Route::post('uploadXls', function () {
-	request()->file('xlsFile')->store('xlsFiles');
-	return back();
-});
+
+Route::post('uploadXls', 'UploadXlsController@index');
+
+
+//Route::post('uploadXls', function () {
+//	$file = request()->file('xlsFile');
+//	$ext = $file->extension();
+//	if ($ext != 'xlsx') {
+//		return back()->withErrors(['Oops expected an xlsx file.']);
+//	}
+//	$file->storeAs('xlsFiles/', 'names.xlsx');
+//	return back()->with('success','Image Upload successful');
+//
+//});
+
+
