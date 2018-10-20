@@ -70,10 +70,19 @@
                 @foreach($users as $user)
                     <tr>
                         <td class="col-md-2">
-                            {!! $user->name !!}
+                            {{ $user->getFirstNameForPrinting() }}
                         </td>
                         <td class="col-md-2">
-                            {!! $user->email !!}
+                            {{ $user->getSurnameForPrinting() }}
+                        </td>
+                        <td class="col-md-2">
+                            {{ $user->getEmailForPrinting() }}
+                        </td>
+                        <td class="col-md-2">
+                            {{ $user->getContactForPrinting() }}
+                        </td>
+                        <td class="col-md-2">
+                            {{ $user->getJoinDateForPrinting() }}
                         </td>
                     </tr>
                 @endforeach
