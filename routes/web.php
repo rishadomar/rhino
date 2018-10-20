@@ -22,3 +22,8 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
 	return view('contact');
 });
+
+Route::post('uploadXls', function () {
+	request()->file('xlsFile')->store('xlsFiles');
+	return back();
+});

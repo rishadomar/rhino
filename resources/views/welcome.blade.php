@@ -69,6 +69,13 @@
                 Rhino Project
             </div>
 
+            <form method="POST" action="/uploadXls" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <input type="file" name="xlsFile"/>
+                <button type="submit">Save</button>
+            </form>
+
         </div>
+
     </body>
 </html>
