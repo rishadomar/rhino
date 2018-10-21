@@ -76,10 +76,23 @@
             </form>
         </div>
 
-        @if(isset($users))
+        <br/>
+
+        @if ($result == 'fail')
+            <div class="content" id="error">
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
+
+        @if(isset($users) && count($users) > 0)
         <div>
-            <br/>
-            <table class="table table-striped">
+            <table align="center" style="margin: 0px auto;">
+                <th align="left">&#x2714;</th>
+                <th align="left">First Name</th>
+                <th align="left">Surname</th>
+                <th align="left">Email</th>
+                <th align="left">Contact</th>
+                <th align="left">Date Joined</th>
                 @foreach($users as $user)
                     <tr>
                         <td>

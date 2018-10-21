@@ -15,15 +15,28 @@ class UploadXlsController extends Controller
 
 	public function index()
 	{
+		$users = [];
 		$file = request()->file('xlsFile');
+		if ($file == null) {
+			//return back()->with('error', 'Oops no selected file.');
+			return view('welcome')->with([
+				'result' => 'fail',
+				'message' => 'Oops no selected file.',
+				'users' => $users
+			]);
+		}
 		$ext = $file->extension();
 		if ($ext != 'xlsx') {
-			return back()->withErrors(['Oops expected an xlsx file.']);
+			//return back()->with('error', 'Oops expected an xlsx file.');
+			return view('welcome')->with([
+				'result' => 'fail',
+				'message' => 'Oops expected an XLSX file.',
+				'users' => $users
+			]);
 		}
 		$file->storeAs('xlsFiles/', 'names.xlsx');
 
 		$details = Excel::toArray(new UsersImport, 'xlsFiles/names.xlsx');
-		$users = [];
 		foreach ($details[0] as &$detail) {
 			$user = User::makeWithRow($detail);
 			if ($user) {
@@ -33,9 +46,10 @@ class UploadXlsController extends Controller
 
 		//return Redirect::route('', array('users' => $users));
 
-		//return back()->with(['users' => $users]);
+		//return back()->with('users', $users);
 
 		return view('welcome')->with([
+			'result' => 'success',
 			'users' => $users
 		]);
 
