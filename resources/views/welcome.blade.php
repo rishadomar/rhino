@@ -102,7 +102,6 @@
                         </td>
 
                         <td
-                                <!--{!! !$user->validateContact() ? 'title=$user->getContactErrorReason()' : '' !!}-->
                                 style="color:{{$user->getTextStyle('contact')}};">
                                 {{ $user->getContactForPrinting() }}
                         </td>
