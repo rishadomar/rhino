@@ -12,7 +12,6 @@ use App\Rhino\User;
 
 class UploadXlsController extends Controller
 {
-
 	public function index()
 	{
 		$users = [];
@@ -29,7 +28,7 @@ class UploadXlsController extends Controller
 		if ($ext != 'xlsx') {
 			return view('welcome')->with([
 				'result' => 'fail',
-				'message' => 'Oops expected an xlsx file.',
+				'message' => 'Oops expected an xlsx file. Instead got: ' . $ext,
 				'users' => $users
 			]);
 		}
@@ -44,9 +43,18 @@ class UploadXlsController extends Controller
 			}
 		}
 
+		$totalValid = 0;
+		foreach ($users as &$user) {
+			if ($user->validateAll()) {
+				++$totalValid;
+			}
+		}
+
 		return view('welcome')->with([
 			'result' => 'success',
-			'users' => $users
+			'users' => $users,
+			'total' => count($users),
+			'totalValid' => $totalValid
 		]);
 	}
 }

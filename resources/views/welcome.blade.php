@@ -127,6 +127,10 @@
                 @endforeach
             </table>
         </div>
+
+        <div class="content">
+            <p>Valid Rows / Total Rows: {{ $totalValid }} / {{ $total }}</p>
+        </div>
         @endif
 
     </body>
