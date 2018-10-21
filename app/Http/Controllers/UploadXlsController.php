@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Imports\UsersImport;
+use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
+use App\Rhino\Contact;
 
 class User {
 	const NameColumn = 0;
@@ -23,7 +25,7 @@ class User {
 		$this->firstName = $firstName;
 		$this->surname = $surname;
 		$this->email = $email;
-		$this->contact = $contact; // e164 format
+		$this->contact = new Contact($contact); // e164 format
 		$this->joinDate = $joinDate; // yyyy-mm-dd format
 	}
 
@@ -63,19 +65,12 @@ class User {
 
 	public function validateContact()
 	{
-		return $this->contact;
+		return $this->contact->validate();
 	}
 
 	public function getContactForPrinting()
 	{
-		if ($this->validateContact()) {
-			return $this->contact;
-		} else {
-			if (strlen($this->contact) == 0) {
-				return '(missing)';
-			}
-			return $this->contact;
-		}
+		return $this->contact->getValueForPrinting();
 	}
 
 	public function validateEmail()
@@ -172,6 +167,11 @@ class User {
 		}
 		return $v ? '' : '#ff0000';
 	}
+
+	public function validateAll()
+	{
+		return $this->validateFirstName() && $this->validateSurname() && $this->validateEmail() && $this->validateContact() && $this->validateJoinDate();
+	}
 }
 
 class UploadXlsController extends Controller
@@ -195,7 +195,11 @@ class UploadXlsController extends Controller
 			}
 		}
 
-		return view('users')->with([
+		//return Redirect::route('', array('users' => $users));
+
+		//return back()->with(['users' => $users]);
+
+		return view('welcome')->with([
 			'users' => $users
 		]);
 

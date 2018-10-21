@@ -9,6 +9,7 @@ composer require maatwebsite/excel
 php artisan vendor:publish
 #composer require phpoffice/phpspreadsheet
 
+composer require giggsey/libphonenumber-for-php
 
 php artisan make:controller UploadXlsController
 npm install

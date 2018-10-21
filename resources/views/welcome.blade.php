@@ -72,10 +72,50 @@
             <form method="POST" action="/uploadXls" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <input type="file" name="xlsFile"/>
-                <button type="submit">Save</button>
+                <button type="submit">Import Users</button>
             </form>
-
         </div>
+
+        @if(isset($users))
+        <div>
+            <br/>
+            <table class="table table-striped">
+                @foreach($users as $user)
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="handled" {{ $user->validateAll() ? 'checked' : '' }}>
+                        </td>
+
+                        <td
+                                style="color:{{$user->getTextStyle('firstName')}};">
+                                {{ $user->getFirstNameForPrinting() }}
+                        </td>
+
+                        <td
+                                style="color:{{$user->getTextStyle('surname')}};">
+                                {{ $user->getSurnameForPrinting() }}
+                        </td>
+
+                        <td
+                                style="color:{{$user->getTextStyle('email')}};">
+                                {{ $user->getEmailForPrinting() }}
+                        </td>
+
+                        <td
+                                <!--{!! !$user->validateContact() ? 'title=$user->getContactErrorReason()' : '' !!}-->
+                                style="color:{{$user->getTextStyle('contact')}};">
+                                {{ $user->getContactForPrinting() }}
+                        </td>
+
+                        <td
+                                style="color:{{$user->getTextStyle('joinDate')}};">
+                                {{ $user->getJoinDateForPrinting() }}
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
+        @endif
 
     </body>
 </html>

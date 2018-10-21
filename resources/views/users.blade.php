@@ -66,6 +66,7 @@
     <body>
         <div class="content">
             <p>All my users</p>
+            <a href="/">Upload file</a>
             <table class="table  table-striped">
                 @foreach($users as $user)
                     <tr>
