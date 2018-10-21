@@ -1,3 +1,11 @@
+ssh root@206.189.250.161
+apt update
+apt dist-upgrade
+
+
+
+
+
 cd ~/src/laravel/rhino
 php artisan serve
 
@@ -14,3 +22,4 @@ composer require giggsey/libphonenumber-for-php
 php artisan make:controller UploadXlsController
 npm install
 npm run dev
+

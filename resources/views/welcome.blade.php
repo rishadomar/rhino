@@ -78,7 +78,7 @@
 
         <br/>
 
-        @if ($result == 'fail')
+        @if (isset($result) && $result == 'fail')
             <div class="content" id="error">
                 <strong>{{ $message }}</strong>
             </div>
