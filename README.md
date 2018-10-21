@@ -51,6 +51,7 @@ Implementation Notes:
  - I tried out Laravel and found it pretty nifty. I'm sure I've just scratched the surface and am very curious to learn about Vue and Laravel's other features.
  - Decided to show all invalid cells in red.
  - Added a checkbox to each row - could be useful for a user to fix and tick off as the user progresses through the list.
+ - I used composer to include packages to read xlsx + validate and format phone number
 
 Improvements I can think of:
 ---
@@ -61,5 +62,6 @@ Improvements I can think of:
  - [] Clear list of users when new file is selected
  - [] Better use of style classes
  - [] Progress bar
+ - [] Handle large sized input file more elegantly
 
 
