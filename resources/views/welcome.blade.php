@@ -100,27 +100,27 @@
                         </td>
 
                         <td
-                                style="color:{{$user->getTextStyle('firstName')}};">
+                                style="color:{{$user->validateFirstName() == true ? '' : '#ff0000'}};">
                                 {{ $user->getFirstNameForPrinting() }}
                         </td>
 
                         <td
-                                style="color:{{$user->getTextStyle('surname')}};">
+                                style="color:{{$user->validateSurname() == true ? '' : '#ff0000'}};">
                                 {{ $user->getSurnameForPrinting() }}
                         </td>
 
                         <td
-                                style="color:{{$user->getTextStyle('email')}};">
+                                style="color:{{$user->validateEmail() == true ? '' : '#ff0000'}};">
                                 {{ $user->getEmailForPrinting() }}
                         </td>
 
                         <td
-                                style="color:{{$user->getTextStyle('contact')}};">
+                                style="color:{{$user->validateContact() == true ? '' : '#ff0000'}};">
                                 {{ $user->getContactForPrinting() }}
                         </td>
 
                         <td
-                                style="color:{{$user->getTextStyle('joinDate')}};">
+                                style="color:{{$user->validateJoinDate() == true ? '' : '#ff0000'}};">
                                 {{ $user->getJoinDateForPrinting() }}
                         </td>
                     </tr>
@@ -129,7 +129,7 @@
         </div>
 
         <div class="content">
-            <p>Valid Rows / Total Rows: {{ $totalValid }} / {{ $total }}</p>
+            <p>Valid Rows: {{ $totalValid }}. Total Rows: {{ $total }}</p>
         </div>
         @endif
 

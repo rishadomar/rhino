@@ -8,11 +8,14 @@ use libphonenumber\PhoneNumberUtil;
 
 class Contact
 {
-
 	static private $phoneUtil = false;
 	private $number;
 	private $valid;
 
+	/**
+	 * Contact constructor.
+	 * @param $number
+	 */
 	public function __construct($number)
 	{
 		if (self::$phoneUtil === false) {
@@ -32,20 +35,22 @@ class Contact
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function validate()
 	{
 		return $this->valid;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getValueForPrinting()
 	{
 		if ($this->valid) {
 			return self::$phoneUtil->format($this->number, PhoneNumberFormat::E164);
-		} else {
-			if (strlen($this->number) == 0) {
-				return '(missing)';
-			}
-			return $this->number;
 		}
+		return strlen($this->number) == 0 ? '(missing)' : $this->number;
 	}
 }

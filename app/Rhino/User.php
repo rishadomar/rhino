@@ -14,6 +14,14 @@ class User {
 	private $contact;
 	private $joinDate;
 
+	/**
+	 * User constructor.
+	 * @param $firstName
+	 * @param $surname
+	 * @param $email
+	 * @param $contact
+	 * @param $joinDate
+	 */
 	public function __construct($firstName, $surname, $email, $contact, $joinDate)
 	{
 		$this->firstName = $firstName;
@@ -23,67 +31,96 @@ class User {
 		$this->joinDate = $joinDate;
 	}
 
-	public function validateFirstName()
+	/**
+	 * @param $name
+	 * @return bool
+	 */
+	static private function validateName($name)
 	{
-		return $this->firstName;
+		if ($name === null || strlen($name) == 0) {
+			return false;
+		}
+
+		// Match for case insensitive alpha only + whitespace + - (hypen)
+		return preg_match('/^[A-Z\s\-]+$/i', $name) === 1 ? true : false;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function validateFirstName()
+	{
+		return self::validateName($this->firstName);
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getFirstNameForPrinting()
 	{
 		if ($this->validateFirstName()) {
 			return $this->firstName;
-		} else {
-			if (strlen($this->firstName) == 0) {
-				return '(missing)';
-			}
-			return $this->firstName;
 		}
+		return strlen($this->firstName) == 0 ? '(missing)' : $this->firstName;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function validateSurname()
 	{
-		return $this->surname;
+		return self::validateName($this->surname);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getSurnameForPrinting()
 	{
 		if ($this->validateSurName()) {
 			return $this->surname;
-		} else {
-			if (strlen($this->surname) == 0) {
-				return '(missing)';
-			}
-			return $this->surname;
 		}
+		return strlen($this->surname) == 0 ? '(missing)' : $this->surname;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function validateContact()
 	{
 		return $this->contact->validate();
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getContactForPrinting()
 	{
 		return $this->contact->getValueForPrinting();
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function validateEmail()
 	{
 		return filter_var($this->email, FILTER_VALIDATE_EMAIL);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getEmailForPrinting()
 	{
 		if ($this->validateEmail()) {
 			return $this->email;
-		} else {
-			if (strlen($this->email) == 0) {
-				return '(missing)';
-			}
-			return $this->email;
 		}
+		return strlen($this->email) == 0 ? '(missing)' : $this->email;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function validateJoinDate()
 	{
 		if ($this->joinDate === null || strlen($this->joinDate) == 0) {
@@ -97,43 +134,52 @@ class User {
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getJoinDateForPrinting()
 	{
 		if ($this->validateJoinDate()) {
 			$m = new \DateTime($this->joinDate);
 			return $m->format('Y-m-d');
-		} else {
-			if (strlen($this->joinDate) == 0) {
-				return '(missing)';
-			}
-			return $this->joinDate;
 		}
+		return strlen($this->joinDate) == 0 ? '(missing)' : $this->joinDate;
 	}
 
-	static public function makeWithRow($row)
+	/**
+	 * Make an instance given details in an array.
+	 * May return null if details are not according to required specification.
+	 *
+	 * @param array $details
+	 * @return User|null
+	 */
+	static public function makeWithDetails(array $details)
 	{
 		//
 		// Check for Empty
 		//
-		if ($row[0] == null || $row[0] == '') {
+		if ($details[0] == null || $details[0] == '') {
 			return null;
 		}
 
 		//
 		// Skip Province
 		//
-		if ($row[1] == null || $row[1] == '') {
+		if ($details[1] == null || $details[1] == '') {
 			return null;
 		}
 
 		//
 		// Check for Header
 		//
-		if ($row[0] == 'Name') {
+		if ($details[0] == 'Name') {
 			return null;
 		}
 
-		$name = $row[self::NameColumn];
+		//
+		// Assume rest of the details are required values
+		//
+		$name = $details[self::NameColumn];
 		$p = strpos($name, ' ');
 		if ($p === false) {
 			$firstName = $name;
@@ -143,25 +189,20 @@ class User {
 			$surname = substr($name, $p);
 		}
 
-		$contact = $row[self::ContactColumn];
+		$contact = $details[self::ContactColumn];
 
-		$email = $row[self::EmailColumn];
+		$email = $details[self::EmailColumn];
 
-		$joinDate = $row[self::JoinDateColumn];
+		$joinDate = $details[self::JoinDateColumn];
 
 		return new User($firstName, $surname, $email, $contact, $joinDate);
 	}
 
-	public function getTextStyle($field)
-	{
-		$function = 'validate' . $field;
-		$v = false;
-		if (is_callable([$this, $function])) {
-			$v = $this->$function();
-		}
-		return $v ? '' : '#ff0000';
-	}
-
+	/**
+	 * Check all fields
+	 *
+	 * @return bool
+	 */
 	public function validateAll()
 	{
 		return $this->validateFirstName() && $this->validateSurname() && $this->validateEmail() && $this->validateContact() && $this->validateJoinDate();

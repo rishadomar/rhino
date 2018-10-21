@@ -2,10 +2,6 @@ ssh root@206.189.250.161
 apt update
 apt dist-upgrade
 
-
-
-
-
 cd ~/src/laravel/rhino
 php artisan serve
 
@@ -23,3 +19,4 @@ php artisan make:controller UploadXlsController
 npm install
 npm run dev
 
+http://e39854b2.ngrok.io/
