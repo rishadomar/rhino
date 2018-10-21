@@ -11,3 +11,5 @@ php artisan vendor:publish
 
 
 php artisan make:controller UploadXlsController
+npm install
+npm run dev
