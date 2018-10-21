@@ -12,7 +12,6 @@ class Contact
 	static private $phoneUtil = false;
 	private $number;
 	private $valid;
-	private $reason;
 
 	public function __construct($number)
 	{
