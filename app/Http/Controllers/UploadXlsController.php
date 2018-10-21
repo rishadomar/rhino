@@ -37,6 +37,9 @@ class User {
 		if ($this->validateFirstName()) {
 			return $this->firstName;
 		} else {
+			if (strlen($this->firstName) == 0) {
+				return '(missing)';
+			}
 			return $this->firstName;
 		}
 	}
@@ -46,11 +49,14 @@ class User {
 		return $this->surname;
 	}
 
-	public function getForPrinting()
+	public function getSurnameForPrinting()
 	{
 		if ($this->validateSurName()) {
 			return $this->surname;
 		} else {
+			if (strlen($this->surname) == 0) {
+				return '(missing)';
+			}
 			return $this->surname;
 		}
 	}
@@ -65,6 +71,9 @@ class User {
 		if ($this->validateContact()) {
 			return $this->contact;
 		} else {
+			if (strlen($this->contact) == 0) {
+				return '(missing)';
+			}
 			return $this->contact;
 		}
 	}
@@ -79,7 +88,10 @@ class User {
 		if ($this->validateEmail()) {
 			return $this->email;
 		} else {
-			return $this->email . 'xxxx';
+			if (strlen($this->email) == 0) {
+				return '(missing)';
+			}
+			return $this->email;
 		}
 	}
 
@@ -102,6 +114,9 @@ class User {
 			$m = new \DateTime($this->joinDate);
 			return $m->format('Y-m-d');
 		} else {
+			if (strlen($this->joinDate) == 0) {
+				return '(missing)';
+			}
 			return $this->joinDate;
 		}
 	}
@@ -148,6 +163,15 @@ class User {
 		return new User($firstName, $surname, $email, $contact, $joinDate);
 	}
 
+	public function getTextStyle($field)
+	{
+		$function = 'validate' . $field;
+		$v = false;
+		if (is_callable([$this, $function])) {
+			$v = $this->$function();
+		}
+		return $v ? '' : '#ff0000';
+	}
 }
 
 class UploadXlsController extends Controller

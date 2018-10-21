@@ -41,7 +41,7 @@
             }
 
             .content {
-                text-align: center;
+                text-align: left;
             }
 
             .title {
@@ -69,19 +69,23 @@
             <table class="table  table-striped">
                 @foreach($users as $user)
                     <tr>
-                        <td class="col-md-2">
+                        <td style="color:{{$user->getTextStyle('firstName')}};">
                             {{ $user->getFirstNameForPrinting() }}
                         </td>
-                        <td class="col-md-2">
+
+                        <td style="color:{{$user->getTextStyle('surname')}};">
                             {{ $user->getSurnameForPrinting() }}
                         </td>
-                        <td class="col-md-2">
+
+                        <td style="color:{{$user->getTextStyle('email')}};">
                             {{ $user->getEmailForPrinting() }}
                         </td>
-                        <td class="col-md-2">
+
+                        <td style="color:{{$user->getTextStyle('contact')}};">
                             {{ $user->getContactForPrinting() }}
                         </td>
-                        <td class="col-md-2">
+
+                        <td style="color:{{$user->getTextStyle('joinDate')}};">
                             {{ $user->getJoinDateForPrinting() }}
                         </td>
                     </tr>
