@@ -1,8 +1,6 @@
 <?php
 namespace App\Rhino;
 
-use App\Rhino\Contact;
-
 class User {
 	const NameColumn = 0;
 	const ContactColumn = 2;
