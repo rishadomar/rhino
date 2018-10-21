@@ -27,16 +27,16 @@ class UploadXlsController extends Controller
 		}
 		$ext = $file->extension();
 		if ($ext != 'xlsx') {
-			//return back()->with('error', 'Oops expected an xlsx file.');
 			return view('welcome')->with([
 				'result' => 'fail',
-				'message' => 'Oops expected an XLSX file.',
+				'message' => 'Oops expected an xlsx file.',
 				'users' => $users
 			]);
 		}
-		$file->storeAs('xlsFiles/', 'names.xlsx');
+		$storeAs = $file->getClientOriginalName();
+		$file->storeAs('xlsFiles/', $storeAs);
 
-		$details = Excel::toArray(new UsersImport, 'xlsFiles/names.xlsx');
+		$details = Excel::toArray(new UsersImport, 'xlsFiles/' . $storeAs);
 		foreach ($details[0] as &$detail) {
 			$user = User::makeWithRow($detail);
 			if ($user) {
@@ -44,15 +44,9 @@ class UploadXlsController extends Controller
 			}
 		}
 
-		//return Redirect::route('', array('users' => $users));
-
-		//return back()->with('users', $users);
-
 		return view('welcome')->with([
 			'result' => 'success',
 			'users' => $users
 		]);
-
-		//return back()->with('success','Image Upload successful');
 	}
 }
